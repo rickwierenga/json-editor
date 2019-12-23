@@ -24,7 +24,7 @@ Tell it where to edit:
 ```html
 <script>
   jsonedit($('#editor'), {
-    'json_file': 'https://www.example.com/path/to/json.json',
+    'jsonFile': 'https://www.example.com/path/to/json.json',
     'push': 'https://www.example.com/path/to/post'
   });
 </script>
