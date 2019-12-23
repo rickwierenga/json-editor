@@ -1,6 +1,6 @@
 # json-editor
 
-A small javascript script that allows users to JSON files.
+A small javascript script that allows users to edit JSON files.
 
 
 ## Documentation
