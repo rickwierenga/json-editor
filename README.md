@@ -20,7 +20,7 @@ handlebars:
 ### Usage
 Load the script:
 ```html
-<script src="https://raw.githubusercontent.com/rickwierenga/json-editor/master/jsoneditor.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/rickwierenga/json-editor@master/jsoneditor.js"></script>
 ```
 
 #### Creating an editor
