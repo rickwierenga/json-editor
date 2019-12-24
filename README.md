@@ -1,17 +1,20 @@
 # json-editor
 
-A small javascript script that allows users to edit JSON files.
+A small javascript script that allows users to edit JSON files. This library is built to let clients who don't know JSON edit JSON which you load on their website.
 
+This library does not style the content it builds.
 
 ## Documentation
 ### Dependencies
-Requires Bootstrap and jQuery (loaded by Bootstrap).
+jQuery:
 
 ```html
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+```
+
+handlebars:
+```html
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.js"></script>
 ```
 
 ### Usage
@@ -20,17 +23,77 @@ Load the script:
 <script src="https://raw.githubusercontent.com/rickwierenga/json-editor/master/jsoneditor.js"></script>
 ```
 
-Tell it where to edit:
+#### Creating an editor
+Add the following [handlebars](https://handlebarsjs.com/) templates:
+```html
+<script id="dictkey" type="text/x-handlebars-template">
+    <div class="dictkey" key="{{ key }}" style="margin-left: {{ indent }}px;">
+        <span>{{ key }}</span>
+    </div>
+</script>
+
+<script id="listkey" type="text/x-handlebars-template">
+    <div class="listkey" key="{{ key }}" style="margin-left: {{ indent }}px;">
+        <span>{{ key }}</span>
+    </div>
+</script>
+
+<script id="value" type="text/x-handlebars-template">
+    <div class="value" style="margin-left: {{ indent }}px;">
+        <textarea style="width: 500px; height: 50px;">{{ value }}</textarea>
+    </div>
+</script>
+
+<script id="keyvalue" type="text/x-handlebars-template">
+    <div class="keyvalue" key="{{ key }}" style="margin-left: {{ indent }}px;">
+        <span>{{ key }}</span> <textarea style="width: 500px; height: 50px;">{{ value }}</textarea>
+    </div>
+</script>
+```
+
+Then add a placeholder for your editor:
+```html
+<h1>Editor</h1>
+<div class="alert alert-warning" role="alert">
+  Do not edit <b>id</b>!
+</div>
+<a id="save">save</a>
+<div id="editor" class="dictkey"></div>
+```
+
+If you json file starts with a dictionary use `dictkey`. Use `listkey` for lists.
+
+You can style these however you like as long as you keep the attributes.
+
 ```html
 <script>
-  jsonedit($('#editor'), {
-    'jsonFile': 'https://www.example.com/path/to/json.json',
-    'push': 'https://www.example.com/path/to/post'
+jsonedit($('#editor'), {
+  'jsonFile': 'https://www.example.com/path/to/json.json'
+});
+</script>
+```
+
+#### Saving
+```html
+<script>
+$('#save').click(function(){
+  save($('#editor'), {
+    'url': '{{ url_for("admin.edit") }}',
+    'success': function(data){
+      alert('Saved successfully.');
+    },
+    'error': function(){
+      alert('An error occured while saving.');
+    }
   });
+});
 </script>
 ```
 
 `'https://www.example.com/path/to/post'` must accept POST requests. The json will be sent in the body.
+
+### Customization
+Fork this repo.
 
 ---
 &copy; Rick Wierenga
