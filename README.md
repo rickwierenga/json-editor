@@ -78,7 +78,7 @@ jsonedit($('#editor'), {
 <script>
 $('#save').click(function(){
   save($('#editor'), {
-    'url': '{{ url_for("admin.edit") }}',
+    'url': 'https://www.example.com/path/to/post',
     'success': function(data){
       alert('Saved successfully.');
     },
