@@ -12,7 +12,7 @@ function jsonedit(object, info) {
         let extra = 20;
 
         if (typeof value === 'string' || value instanceof String || typeof value === 'number' || value instanceof Number) {
-            if (key === undefined || key === '') {
+            if (key == undefined || key == '') {
                 var template = Handlebars.compile($("#value").html());
                 parent.append(template({value: value, indent: indent}));
             } else {
@@ -27,9 +27,11 @@ function jsonedit(object, info) {
             for (var i = 0; i < value.length; i++) {
                 add('', value[i], indent+extra, newRow);
             }
-            // TODO: add add button.
-            // TODO: add delete button.
 
+            let buttonTemplate = Handlebars.compile($("#add-button-template").html());
+            let newButton = $(buttonTemplate({indent: indent+extra}));
+            newButton.attr('indent', indent+extra);
+            newRow.append(newButton);
         } else {
             let template = Handlebars.compile($("#dictkey").html());
             let newRow = $(template({key: key, indent: indent}));
@@ -56,7 +58,7 @@ function save(object, info) {
     function loadJSON(object) {
         var built = {};
         if (object.hasClass('dictkey')) {
-            let elements = object.children(':not(span)')
+            let elements = object.children(':not(span, a)')
             for (var i = 0; i < elements.length; i++) {
                 let element = $(elements[i]);
                 let key = element.attr('key');
@@ -64,11 +66,11 @@ function save(object, info) {
             }
         } else if (object.hasClass('listkey')) {
             let key = object.attr('key');
-            var items = object.children(':not(span)');
+            var items = object.children(':not(span, a)');
             var parsedItems = [];
             items.each(function(index){
-                let t = $(this);
                 let load = loadJSON($(this));
+                console.log(index, $(this), load);
                 parsedItems.push(load);
             });
             built = parsedItems;
@@ -82,3 +84,16 @@ function save(object, info) {
         return built;
     }
 }
+
+// support for add and delete buttons
+$(document).on('click', '#delete', function(){
+    $(this).parent().remove();
+});
+
+$(document).on('click', '#add', function(){
+    let indent = $(this).attr('indent');
+    let template = Handlebars.compile($("#value").html());
+    let newRow = $( template({value: '', indent: indent}) );
+    $(this).parent().append(newRow);
+});
+

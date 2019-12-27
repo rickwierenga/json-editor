@@ -41,6 +41,7 @@ Add the following [handlebars](https://handlebarsjs.com/) templates:
 <script id="value" type="text/x-handlebars-template">
     <div class="value" style="margin-left: {{ indent }}px;">
         <textarea style="width: 500px; height: 50px;">{{ value }}</textarea>
+        <a id="delete" class="btn btn-danger">Delete</a>
     </div>
 </script>
 
@@ -48,6 +49,11 @@ Add the following [handlebars](https://handlebarsjs.com/) templates:
     <div class="keyvalue" key="{{ key }}" style="margin-left: {{ indent }}px;">
         <span>{{ key }}</span> <textarea style="width: 500px; height: 50px;">{{ value }}</textarea>
     </div>
+</script>
+
+
+<script id="add-button-template" type="text/x-handlebars-template">
+    <a id="add" class="btn btn-primary">Add</a>
 </script>
 ```
 
