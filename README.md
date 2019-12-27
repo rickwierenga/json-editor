@@ -71,6 +71,7 @@ If you json file starts with a dictionary use `dictkey`. Use `listkey` for lists
 
 You can style these however you like as long as you keep the attributes.
 
+Load the json editor:
 ```html
 <script>
 jsonedit($('#editor'), {
